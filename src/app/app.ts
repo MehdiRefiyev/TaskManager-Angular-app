@@ -1,8 +1,10 @@
 import { Component, signal } from '@angular/core';
+import { Caregories } from "./views/caregories/caregories";
+import { Tasks } from "./views/tasks/tasks";
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [Caregories, Tasks],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

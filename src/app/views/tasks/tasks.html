@@ -1,0 +1,85 @@
+<div class="row mb-4">
+  <div class="mb-md-0 mb-4">
+    <div class="card">
+      <div class="card-header pb-0">
+        <div class="row">
+          <div class="col-lg-6 col-7">
+            <h6>List of Task</h6>
+          </div>
+        </div>
+      </div>
+      <div class="card-body px-0 pb-2">
+        <div class="table-responsive">
+          <table class="table align-items-center mb-0">
+            <thead>
+              <tr>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                  Id
+                </th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                  Name
+                </th>
+                <th
+                  class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+                >
+                  Category
+                </th>
+                <th
+                  class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                >
+                  Priority
+                </th>
+                <th
+                  class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                >
+                  Status
+                </th>
+                <th
+                  class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                >
+                  Date
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (task of tasks; track $index) {
+                <tr>
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                            <p>{{task.id}}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                            <p>{{task.title}}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                            <p>{{task.category?.title}}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                            <p>{{task.priority?.title}}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                            <p>{{task.completed}}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                            <p>{{task.date | date:'shortDate'}}</p>
+                        </div>
+                    </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
