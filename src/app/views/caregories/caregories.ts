@@ -12,6 +12,8 @@ export class Caregories implements OnInit {
 
   private readonly dataHandler = inject(DataHandler)
 
+  public selectedCategory : Category | undefined;
+
   public categories: Category[] = [];
 
   ngOnInit(){    
@@ -19,6 +21,7 @@ export class Caregories implements OnInit {
   }
 
   public showTaskByCategory(category : Category){
+    this.selectedCategory = category;
     return this.dataHandler.fillTaskByCategory(category);
   }
 

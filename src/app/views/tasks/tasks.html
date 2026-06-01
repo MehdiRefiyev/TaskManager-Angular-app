@@ -14,7 +14,7 @@
             <thead>
               <tr>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                  Id
+                  #
                 </th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                   Name
@@ -46,7 +46,7 @@
                 <tr>
                     <td>
                         <div class="d-flex px-2 py-1">
-                            <p>{{task.id}}</p>
+                            <p>{{$index + 1}}</p>
                         </div>
                     </td>
                     <td>
@@ -56,22 +56,22 @@
                     </td>
                     <td>
                         <div class="d-flex px-2 py-1">
-                            <p>{{task.category?.title}}</p>
+                            <p>{{task.category ? task.category.title : 'without category'}}</p>
                         </div>
                     </td>
                     <td>
                         <div class="d-flex px-2 py-1">
-                            <p>{{task.priority?.title}}</p>
+                            <p>{{task.priority ? task.priority.title : 'without priority'}}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                            <p>{{task.date ? (task.date | date:'shortDate') : 'without priority'}}</p>
                         </div>
                     </td>
                     <td>
                         <div class="d-flex px-2 py-1">
                             <p>{{task.completed}}</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="d-flex px-2 py-1">
-                            <p>{{task.date | date:'shortDate'}}</p>
                         </div>
                     </td>
                 </tr>
