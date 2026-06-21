@@ -12,9 +12,9 @@ export class DataHandler {
   tasksSubject = new BehaviorSubject<Task[]>(TestData.tasks)
   categoriesSubject = new BehaviorSubject<Category[]>(TestData.categories)
 
-  fillTasks() {
-    this.tasksSubject.next(TestData.tasks)
-  }
+  // fillTasks() {
+  //   this.tasksSubject.next(TestData.tasks)
+  // }
 
   fillTaskByCategory(category : Category) {
     const result = TestData.tasks.filter(task =>  task.category === category);

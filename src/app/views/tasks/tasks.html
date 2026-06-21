@@ -10,7 +10,7 @@
       </div>
       <div class="card-body px-0 pb-2">
         <div class="table-responsive">
-          <table class="table align-items-center mb-0">
+          <!-- <table class="table align-items-center mb-0">
             <thead>
               <tr>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -44,39 +44,126 @@
             <tbody>
               @for (task of tasks; track $index) {
                 <tr>
-                    <td>
-                        <div class="d-flex px-2 py-1">
-                            <p>{{$index + 1}}</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="d-flex px-2 py-1">
-                            <p>{{task.title}}</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="d-flex px-2 py-1">
-                            <p>{{task.category ? task.category.title : 'without category'}}</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="d-flex px-2 py-1">
-                            <p>{{task.priority ? task.priority.title : 'without priority'}}</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="d-flex px-2 py-1">
-                            <p>{{task.date ? (task.date | date:'shortDate') : 'without priority'}}</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="d-flex px-2 py-1">
-                            <p>{{task.completed}}</p>
-                        </div>
-                    </td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <p>{{ $index + 1 }}</p>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <p [class.lineThrough]="task.completed">{{ task.title }}</p>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <p
+                        [class.lineThrough]="task.completed"
+                        [style.color]="task.category.title ? '#737373' : 'red'"
+                      >
+                        {{ task.category.title ? task.category.title : 'Without category' }}
+                      </p>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <p [class.lineThrough]="task.completed">
+                        {{ task.priority ? task.priority.title : 'without priority' }}
+                      </p>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <p [class.lineThrough]="task.completed">
+                        {{ task.date ? (task.date | date: 'shortDate') : 'without priority' }}
+                      </p>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <input
+                        type="checkbox"
+                        [checked]="task.completed"
+                        (click)="completeTask(task.id)"
+                      />
+                    </div>
+                  </td>
                 </tr>
               }
             </tbody>
+          </table> -->
+
+          <table mat-table [dataSource]="tasks" class="mat-elevation-z2 w-100">
+            <!-- Priority color indicator -->
+            <ng-container matColumnDef="color">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td
+                mat-cell
+                *matCellDef="let task"
+                [style.background-color]="getPriorityColor(task)"
+              ></td>
+            </ng-container>
+
+            <!-- Index -->
+            <ng-container matColumnDef="index">
+              <th mat-header-cell *matHeaderCellDef>#</th>
+              <td mat-cell *matCellDef="let task; let i = index">{{ i + 1 }}</td>
+            </ng-container>
+
+            <!-- Name -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let task">
+                <span [class.lineThrough]="task.completed">{{ task.title }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Category -->
+            <ng-container matColumnDef="category">
+              <th mat-header-cell *matHeaderCellDef>Category</th>
+              <td mat-cell *matCellDef="let task">
+                <span
+                  [class.lineThrough]="task.completed"
+                  [style.color]="task.category?.title ? '#737373' : 'red'"
+                >
+                  {{ task.category?.title ? task.category.title : 'Without category' }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Priority -->
+            <ng-container matColumnDef="priority">
+              <th mat-header-cell *matHeaderCellDef class="text-center">Priority</th>
+              <td mat-cell *matCellDef="let task" class="text-center">
+                <span [class.lineThrough]="task.completed">
+                  {{ task.priority ? task.priority.title : 'Without priority' }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Status (checkbox) -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
+              <td mat-cell *matCellDef="let task" class="text-center">
+                <input
+                  type="checkbox"
+                  [checked]="task.completed"
+                  (change)="completeTask(task.id)"
+                />
+              </td>
+            </ng-container>
+
+            <!-- Date -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef class="text-center">Date</th>
+              <td mat-cell *matCellDef="let task" class="text-center">
+                <span [class.lineThrough]="task.completed">
+                  {{ task.date ? (task.date | date: 'shortDate') : 'Without date' }}
+                </span>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
         </div>
       </div>

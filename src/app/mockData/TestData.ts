@@ -18,7 +18,7 @@ export class TestData {
     ]
 
     static tasks: Task[] = [
-        new Task(1, "Complete project report", false, this.priorities[0], this.categories[0], new Date(2025, 5, 15)),
+        new Task(1, "Complete project report", false, this.priorities[0], { id : null , title : null }, new Date(2025, 5, 15)),
         new Task(2, "Buy groceries", false, this.priorities[2], this.categories[2], new Date(2025, 5, 10)),
         new Task(3, "Doctor appointment", true, this.priorities[1], this.categories[3], new Date(2025, 5, 5)),
         new Task(4, "Review Q2 budget", false, this.priorities[0], this.categories[4], new Date(2025, 5, 20)),
