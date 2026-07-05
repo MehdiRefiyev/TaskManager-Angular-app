@@ -1,44 +1,123 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { DataHandler } from '../../service/data-handler';
+import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableModule } from '@angular/material/table';
+
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+
+import { DataHandler } from '../../service/data-handler';
+import { Task } from '../../model/Task';
 
 @Component({
   selector: 'app-tasks',
-  imports: [CommonModule, MatTableModule],
+  standalone: true,
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule],
   templateUrl: './tasks.html',
   styleUrl: './tasks.scss',
 })
-export class Tasks implements OnInit {
-  
-  public tasks : any;
+export class Tasks implements OnInit, AfterViewInit {
+  private readonly dataHandler = inject(DataHandler);
 
-  private readonly dataHandler = inject(DataHandler)
+  public tasks: Task[] = [];
 
-  ngOnInit(){
-    this.dataHandler.tasksSubject.subscribe(tasks => this.tasks = tasks);
+  public displayedColumns: string[] = [
+    'color',
+    'index',
+    'name',
+    'category',
+    'priority',
+    'status',
+    'date',
+  ];
+
+  public dataSource = new MatTableDataSource<Task>([]);
+
+  @ViewChild(MatPaginator)
+  public paginator?: MatPaginator;
+
+  @ViewChild(MatSort)
+  public sort?: MatSort;
+
+  ngOnInit(): void {
+    this.dataHandler.getAllTaks().subscribe((tasks: Task[]) => {
+      this.tasks = tasks;
+
+      this.refreshTable();
+    });
   }
 
-  completeTask(taskID : boolean) : void {
-    const completedTaskIndex = this.tasks.findIndex((task : any) => task.id === taskID);
-
-    this.tasks[completedTaskIndex].completed = !this.tasks[completedTaskIndex].completed;
-  
-    // this.dataHandler.tasksSubject.next(this.tasks)
+  ngAfterViewInit(): void {
+    this.refreshTable();
   }
 
-  displayedColumns: string[] = ['color', 'index', 'name', 'category', 'priority', 'status', 'date'];
+  completeTask(taskID: number): void {
+    const task = this.tasks.find((task) => task.id === taskID);
 
-  getPriorityColor(task: any): string {
+    if (!task) {
+      return;
+    }
+
+    task.completed = !task.completed;
+
+    this.refreshTable();
+
+    // Uncomment if other components should receive updates.
+    // this.dataHandler.tasksSubject.next(this.tasks);
+  }
+
+  getPriorityColor(task: Task): string {
     switch (task.priority?.title) {
       case 'High':
         return '#f44336';
+
       case 'Medium':
         return '#ff9800';
+
       case 'Low':
         return '#4caf50';
+
       default:
         return '#e0e0e0';
     }
+  }
+
+  private refreshTable(): void {
+    this.dataSource.data = this.tasks;
+
+    this.addTableObjects();
+  }
+
+  private addTableObjects(): void {
+    if (!this.paginator || !this.sort) {
+      return;
+    }
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    this.dataSource.sortingDataAccessor = (task: Task, property: string): string | number => {
+      switch (property) {
+        case 'index':
+          return task.id;
+
+        case 'name':
+          return task.title;
+
+        case 'category':
+          return task.category?.title ?? '';
+
+        case 'priority':
+          return task.priority?.title ?? '';
+
+        case 'date':
+          return task.date ? new Date(task.date).getTime() : 0;
+
+        case 'status':
+          return task.completed ? 1 : 0;
+
+        default:
+          return (task as any)[property];
+      }
+    };
   }
 }
