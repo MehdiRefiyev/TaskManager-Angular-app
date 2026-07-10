@@ -1,4 +1,4 @@
-<app-caregories></app-caregories>
+<app-categories [categories]="categories"></app-categories>
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg " id="main-content">
   <!-- Navbar -->
   <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur"
@@ -88,6 +88,6 @@
         </div>
       </div>
     </div>
-    <app-tasks></app-tasks>
+    <app-tasks [tasks]="tasks"></app-tasks>
   </div>
 </main>

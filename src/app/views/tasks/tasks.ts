@@ -1,11 +1,8 @@
-import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-
-import { DataHandler } from '../../service/data-handler';
 import { Task } from '../../model/Task';
 
 @Component({
@@ -16,10 +13,6 @@ import { Task } from '../../model/Task';
   styleUrl: './tasks.scss',
 })
 export class Tasks implements OnInit, AfterViewInit {
-  private readonly dataHandler = inject(DataHandler);
-
-  public tasks: Task[] = [];
-
   public displayedColumns: string[] = [
     'color',
     'index',
@@ -29,7 +22,6 @@ export class Tasks implements OnInit, AfterViewInit {
     'status',
     'date',
   ];
-
   public dataSource = new MatTableDataSource<Task>([]);
 
   @ViewChild(MatPaginator)
@@ -38,12 +30,10 @@ export class Tasks implements OnInit, AfterViewInit {
   @ViewChild(MatSort)
   public sort?: MatSort;
 
-  ngOnInit(): void {
-    this.dataHandler.getAllTaks().subscribe((tasks: Task[]) => {
-      this.tasks = tasks;
+  @Input() public tasks: Task[] = [];
 
-      this.refreshTable();
-    });
+  ngOnInit(): void {
+    this.refreshTable();
   }
 
   ngAfterViewInit(): void {
@@ -60,9 +50,6 @@ export class Tasks implements OnInit, AfterViewInit {
     task.completed = !task.completed;
 
     this.refreshTable();
-
-    // Uncomment if other components should receive updates.
-    // this.dataHandler.tasksSubject.next(this.tasks);
   }
 
   getPriorityColor(task: Task): string {

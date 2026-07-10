@@ -1,24 +1,20 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { DataHandler } from '../../service/data-handler';
 import { Category } from '../../model/Category';
 
 @Component({
-  selector: 'app-caregories',
+  selector: 'app-categories',
   imports: [],
-  templateUrl: './caregories.html',
-  styleUrl: './caregories.scss',
+  templateUrl: './categories.html',
+  styleUrl: './categories.scss',
 })
-export class Caregories implements OnInit {
+export class Categories {
 
   private readonly dataHandler = inject(DataHandler)
 
   public selectedCategory : Category | undefined;
 
-  public categories: Category[] = [];
-
-  ngOnInit(){    
-    this.dataHandler.categoriesSubject.subscribe(category => this.categories = category)
-  }
+  @Input() public categories: Category[] | undefined = [];
 
   public showTaskByCategory(category : Category){
     this.selectedCategory = category;
