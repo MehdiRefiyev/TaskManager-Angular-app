@@ -23,6 +23,7 @@ export class Tasks implements OnInit, AfterViewInit {
     'date',
   ];
   public dataSource = new MatTableDataSource<Task>([]);
+  public tasks: Task[] = [];
 
   @ViewChild(MatPaginator)
   public paginator?: MatPaginator;
@@ -30,7 +31,12 @@ export class Tasks implements OnInit, AfterViewInit {
   @ViewChild(MatSort)
   public sort?: MatSort;
 
-  @Input() public tasks: Task[] = [];
+  
+  @Input('tasks') 
+  public set setTasks(tasks: Task[]) {
+    this.tasks = tasks;
+    this.refreshTable();
+  }
 
   ngOnInit(): void {
     this.refreshTable();

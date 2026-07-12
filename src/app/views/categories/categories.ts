@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, Output, EventEmitter } from '@angular/core';
 import { DataHandler } from '../../service/data-handler';
 import { Category } from '../../model/Category';
 
@@ -14,11 +14,17 @@ export class Categories {
 
   public selectedCategory : Category | undefined;
 
+  @Output() selectCategory = new EventEmitter<Category>();
+
   @Input() public categories: Category[] | undefined = [];
 
-  public showTaskByCategory(category : Category){
+  public showTaskByCategory(category: Category): void {
+    if (this.selectedCategory === category) {
+      return;
+    }
+
     this.selectedCategory = category;
-    return this.dataHandler.fillTaskByCategory(category);
+    this.selectCategory.emit(category);
   }
 
 }
