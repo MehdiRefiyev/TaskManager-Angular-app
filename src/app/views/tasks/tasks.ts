@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Task } from '../../model/Task';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-tasks',
@@ -31,6 +32,7 @@ export class Tasks implements OnInit, AfterViewInit {
   @ViewChild(MatSort)
   public sort?: MatSort;
 
+  @Output() public taksInfo = new EventEmitter<Task>();
   
   @Input('tasks') 
   public set setTasks(tasks: Task[]) {
@@ -72,6 +74,10 @@ export class Tasks implements OnInit, AfterViewInit {
       default:
         return '#e0e0e0';
     }
+  }
+
+  public showTaskInfo(task: Task): void {
+    this.taksInfo.emit(task);
   }
 
   private refreshTable(): void {

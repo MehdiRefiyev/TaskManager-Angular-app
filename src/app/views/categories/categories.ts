@@ -9,9 +9,6 @@ import { Category } from '../../model/Category';
   styleUrl: './categories.scss',
 })
 export class Categories {
-
-  private readonly dataHandler = inject(DataHandler)
-
   public selectedCategory : Category | undefined;
 
   @Output() selectCategory = new EventEmitter<Category>();

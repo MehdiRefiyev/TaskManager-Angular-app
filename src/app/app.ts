@@ -32,4 +32,8 @@ export class App {
       this.tasks = tasks;
     });
   }
+
+  public onClikTask(task: Task): void {
+    console.log('Task clicked:', task);
+  }
 }
