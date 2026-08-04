@@ -1,1 +1,11 @@
-<p>edit-task-dialog works!</p>
+<h2 mat-dialog-title class="dialog-title">{{ title }}</h2>
+<mat-dialog-content class="p-0 w-100">
+  <mat-form-field class="w-100">
+    <mat-label>Task Title</mat-label>
+    <input matInput [(ngModel)]="task.title" />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions class="p-0">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

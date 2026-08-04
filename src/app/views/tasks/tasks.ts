@@ -5,6 +5,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Task } from '../../model/Task';
 import { EventEmitter } from '@angular/core';
+import { EditTaskDialog } from '../../dialog/edit-task-dialog/edit-task-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tasks',
@@ -25,6 +27,11 @@ export class Tasks implements OnInit, AfterViewInit {
   ];
   public dataSource = new MatTableDataSource<Task>([]);
   public tasks: Task[] = [];
+  private dialog: MatDialog;
+
+  constructor(dialog: MatDialog) {
+    this.dialog = dialog;
+  }
 
   @ViewChild(MatPaginator)
   public paginator?: MatPaginator;
@@ -32,7 +39,7 @@ export class Tasks implements OnInit, AfterViewInit {
   @ViewChild(MatSort)
   public sort?: MatSort;
 
-  @Output() public taksInfo = new EventEmitter<Task>();
+  @Output() public taskInfo = new EventEmitter<Task>();
   
   @Input('tasks') 
   public set setTasks(tasks: Task[]) {
@@ -77,7 +84,20 @@ export class Tasks implements OnInit, AfterViewInit {
   }
 
   public showTaskInfo(task: Task): void {
-    this.taksInfo.emit(task);
+    this.taskInfo.emit(task);
+  }
+
+  public openEditTaskDialog(task: Task): void {
+    const dialogref = this.dialog.open(EditTaskDialog, {
+      data: { task, title: "Edit Task" },
+      autoFocus: false
+    });
+
+    dialogref.afterClosed().subscribe((result) => {
+      if (result) {
+        this.refreshTable();
+      }
+    });
   }
 
   private refreshTable(): void {
