@@ -1,5 +1,4 @@
-import { Component, inject, Input, Output, EventEmitter } from '@angular/core';
-import { DataHandler } from '../../service/data-handler';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Category } from '../../model/Category';
 
 @Component({

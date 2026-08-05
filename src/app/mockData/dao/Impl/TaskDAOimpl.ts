@@ -30,8 +30,13 @@ export class TaskDAOimpl implements TaskDAO {
   delete(id: number): Observable<Task> {
     throw new Error('Method not implemented.');
   }
-  update(item: Task): Observable<Task> {
-    throw new Error('Method not implemented.');
+
+  update(task: Task): void {
+    const index = TestData.tasks.findIndex(t => t.id === task.id);
+    
+    if (index !== -1) {
+      TestData.tasks[index] = task;
+    }
   }
 
   search(

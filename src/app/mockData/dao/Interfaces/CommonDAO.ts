@@ -10,5 +10,5 @@ export interface CommonDAO<T> {
 
     delete(id: number): Observable<T>;
 
-    update(item : T): Observable<T>;
+    update(item : T): void;
 }

@@ -34,6 +34,6 @@ export class App {
   }
 
   public onClikTask(task: Task): void {
-    console.log('Task clicked:', task);
+    console.log('User click this Task : ', task);
   }
 }

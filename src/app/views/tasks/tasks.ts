@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -7,6 +7,7 @@ import { Task } from '../../model/Task';
 import { EventEmitter } from '@angular/core';
 import { EditTaskDialog } from '../../dialog/edit-task-dialog/edit-task-dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { DataHandler } from '../../service/data-handler';
 
 @Component({
   selector: 'app-tasks',
@@ -28,6 +29,7 @@ export class Tasks implements OnInit, AfterViewInit {
   public dataSource = new MatTableDataSource<Task>([]);
   public tasks: Task[] = [];
   private dialog: MatDialog;
+  private readonly dataHandler = inject(DataHandler);
 
   constructor(dialog: MatDialog) {
     this.dialog = dialog;
@@ -95,6 +97,7 @@ export class Tasks implements OnInit, AfterViewInit {
 
     dialogref.afterClosed().subscribe((result) => {
       if (result) {
+        this.dataHandler.updateTask(result);
         this.refreshTable();
       }
     });

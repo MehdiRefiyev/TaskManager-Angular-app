@@ -5,6 +5,8 @@ import { Task } from "../../../model/Task";
 import { CommonDAO } from "./CommonDAO";
 
 export interface TaskDAO extends CommonDAO<Task>{
+    update(task: Task): void;
+
     search(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task[]>;
 
     getCompletedCountInCategory(category: Category): Observable<number>;

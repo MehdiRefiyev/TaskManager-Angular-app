@@ -30,6 +30,10 @@ export class DataHandler {
     return this.categoryDaoImpl.getAll();
   }
 
+  updateTask(task: Task): void {
+    return this.taskDaoImpl.update(task);
+  }
+
   searchTasks(
     category?: Category,
     searchText?: string,
