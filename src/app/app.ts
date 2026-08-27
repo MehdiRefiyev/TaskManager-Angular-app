@@ -18,6 +18,7 @@ export class App {
 
   public tasks: Task[] = [];
   public categories: Category[] = [];
+  public selectedCategory: Category | undefined;
 
   constructor() {
     this.dataHandler.getAllTaks().subscribe((tasks: Task[]) => {
@@ -27,13 +28,22 @@ export class App {
     this.dataHandler.getAllCategories().subscribe((category) => (this.categories = category));
   }
 
-  public onSelectCategory(category: Category): void {
-    this.dataHandler.searchTasks(category).subscribe((tasks) => {
-      this.tasks = tasks;
-    });
+  public onSelectCategory(category: Category | undefined): void {
+    if (category === undefined) {
+      this.dataHandler.getAllTaks().subscribe((tasks: Task[]) => {
+        this.tasks = tasks;
+      });
+    }
+    else {
+      this.selectedCategory = category
+
+      this.dataHandler.searchTasks(category).subscribe((tasks) => {
+        this.tasks = tasks;
+      });
+    }
   }
 
-  public onClikTask(task: Task): void {
-    console.log('User click this Task : ', task);
+  public actionWithTask(task: Task): void {
+    this.onSelectCategory(this.selectedCategory)
   }
 }

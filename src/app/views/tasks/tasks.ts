@@ -98,6 +98,14 @@ export class Tasks implements OnInit, AfterViewInit {
     dialogref.afterClosed().subscribe((result) => {
       if (result) {
         this.dataHandler.updateTask(result);
+
+        const index = this.tasks.findIndex((t) => t.id === result.id);
+        if (index > -1) {
+          this.tasks[index] = { ...this.tasks[index], ...result };
+        }
+        
+        this.showTaskInfo(this.tasks[index])
+
         this.refreshTable();
       }
     });

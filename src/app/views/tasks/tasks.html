@@ -66,7 +66,10 @@
                 </th>
 
                 <td mat-cell *matCellDef="let task" class="text-center">
-                  <span [class.lineThrough]="task.completed">
+                  <span 
+                    [class.lineThrough]="task.completed"
+                    [style.color]="task.priority?.id === 4 ? 'red' : '#737373'"
+                  >
                     {{ task.priority?.title || 'Without priority' }}
                   </span>
                 </td>
@@ -102,7 +105,7 @@
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
               <!-- Rows -->
-              <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="showTaskInfo(row)"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>
 
             <mat-paginator

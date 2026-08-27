@@ -23,4 +23,8 @@ export class Categories {
     this.selectCategory.emit(category);
   }
 
+  public backToHome() {
+    this.selectCategory.emit(undefined)
+  }
+
 }
