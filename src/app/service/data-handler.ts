@@ -42,4 +42,9 @@ export class DataHandler {
   ): Observable<Task[]> {
     return this.taskDaoImpl.search(category, searchText, status, priority);
   }
+
+  deleteTask(id: number) {
+    const result = this.taskDaoImpl.delete(id)
+    this.tasksSubject.next(result);
+  }
 }

@@ -9,6 +9,8 @@ export interface TaskDAO extends CommonDAO<Task>{
 
     search(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task[]>;
 
+    delete(id: number): void;
+
     getCompletedCountInCategory(category: Category): Observable<number>;
 
     getUncompletedCountInCategory(category: Category): Observable<number>;

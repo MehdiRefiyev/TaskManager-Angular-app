@@ -96,6 +96,12 @@ export class Tasks implements OnInit, AfterViewInit {
     });
 
     dialogref.afterClosed().subscribe((result) => {
+      if (result === 'deleted') {
+        // Parent re-queries tasks, since the delete DAO replaces the array
+        this.showTaskInfo(task);
+        return;
+      }
+
       if (result) {
         this.dataHandler.updateTask(result);
 
